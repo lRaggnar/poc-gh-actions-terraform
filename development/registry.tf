@@ -22,7 +22,7 @@ resource "azurerm_container_registry" "container_registry" {
   location                      = var.location
   sku                           = "Standard"
   admin_enabled                 = true
-  public_network_access_enabled = false
+  # public_network_access_enabled = false
 
   tags = local.required_tags
 }
