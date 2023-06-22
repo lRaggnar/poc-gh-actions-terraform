@@ -25,6 +25,8 @@ jobs:
       run: |
         cd ..
         tree
+        cd poc-gh-actions-terraform
+        tree
         ls -la
         terraform init
       env:
