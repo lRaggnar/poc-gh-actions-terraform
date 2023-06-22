@@ -10,9 +10,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  terraform:
+  setup-tf-modules:
     runs-on: ubuntu-latest
-    name: Terraform
+    name: Terraform init
     environment: development
     steps:
     - name: Checkout
@@ -32,5 +32,17 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
         ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        ENVIRONMENT: development
+      working-directory: development
+      shell: bash
+    - name: Terraform plan
+      id: plan
+      run: terraform plan -out tf.plan -input=false -lock=false
+      env:
+        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        ENVIRONMENT: development
       working-directory: development
       shell: bash
