@@ -1,0 +1,14 @@
+name: Deply Terraform infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Testing first time
+        run: |
+          echo "Hello world from GH actions!!"
