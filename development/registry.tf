@@ -5,8 +5,6 @@ locals {
   required_tags = {
     environent   = upper(var.environment),
     project_name = upper(var.project_name),
-    owner        = upper(var.owner),
-    cost_center  = upper(var.cost_center),
     country      = upper(var.country)
   }
 
