@@ -48,7 +48,7 @@ jobs:
       shell: bash
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -intpu=false tf.plan
+      run: terraform apply -input=false tf.plan
       env:
         ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
