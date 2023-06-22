@@ -22,11 +22,14 @@ jobs:
         terraform_wrapper: false
     - name: Terraform init
       id: init
-      run: terraform init
+      run: |
+        ls -la
+        cd development
+        terraform init
       env:
         ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
         ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      working-directory: ${{ github.workspace }}/poc-gh-actions-terraform/development
+      # working-directory: ${{ github.workspace }}/development
       shell: bash
