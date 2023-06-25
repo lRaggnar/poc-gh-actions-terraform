@@ -35,15 +35,7 @@ jobs:
     - name: Using azure cli
       uses: azure/login@v1
     - name: Log in
-      env:
-        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-        ENVIRONMENT: development
-      run: |
-        az -h
-        az login --service-principal --tenant ${{ secrets.ARM_TENANT_ID }} --username ${{ secrets.ARM_CLIENT_ID }} --password ${{ secrets.ARM_CLIENT_SECRET }}
+      run: az login --service-principal --tenant ${{ secrets.ARM_TENANT_ID }} --username ${{ secrets.ARM_CLIENT_ID }} --password ${{ secrets.ARM_CLIENT_SECRET }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
