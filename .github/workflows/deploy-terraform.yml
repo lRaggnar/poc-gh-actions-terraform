@@ -26,6 +26,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -input=false tf.plan
+      run: |
+        tree
+        terraform apply -input=false tf.plan
       working-directory: ${{ inputs.working-directory }}
       shell: bash
