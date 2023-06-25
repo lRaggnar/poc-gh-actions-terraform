@@ -37,6 +37,10 @@ jobs:
       run: terraform plan -out tf.plan -input=false -lock=false
       working-directory: development
       shell: bash
+    - uses: actions/cache@v3
+      with:
+        path: development/tf.plan
+        key: plan-file
 
   deploy-infra:
     uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
