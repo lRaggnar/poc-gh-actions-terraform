@@ -40,8 +40,6 @@ jobs:
       run: terraform plan -out tf.plan -input=false -lock=false
       working-directory: development
       shell: bash
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -input=false tf.plan
-      working-directory: development
-      shell: bash
+    - uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
+      with:
+        working-directory: development

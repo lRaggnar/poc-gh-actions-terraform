@@ -1,0 +1,29 @@
+name: Manual deployment for Terraform Infrastructure
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+      ENVIRONMENT:
+        required: true
+
+jobs:
+  deploy_tf:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -input=false tf.plan
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
