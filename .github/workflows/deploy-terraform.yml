@@ -32,6 +32,9 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.1.9
+    - name: Log in
+      uses: azure/login@v1
+      run: az login --service-principal --tenant ${{ secrets.ARM_TENANT_ID }} --username ${{ secrets.ARM_CLIENT_ID }} --password ${{ secrets.ARM_CLIENT_SECRET }}
     - name: Terraform Apply
       env:
         ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
