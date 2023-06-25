@@ -7,13 +7,13 @@ on:
         required: true
         type: string
     secrets:
-      ARM_CLIENT_ID:
+      CLIENT_ID:
         required: true
-      ARM_CLIENT_SECRET:
+      CLIENT_SECRET:
         required: true
-      ARM_SUBSCRIPTION_ID:
+      SUBSCRIPTION_ID:
         required: true
-      ARM_TENANT_ID:
+      TENANT_ID:
         required: true
       ENVIRONMENT:
         required: true
@@ -48,16 +48,11 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
         ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       run: |
-        echo "AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}"
-        echo "AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}"
-        echo "AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}"
+        echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
+        echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
+        echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
     - name: Log in
-      env:
-        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      run: az login --service-principal --tenant ${{ secrets.ARM_TENANT_ID }} --username ${{ secrets.ARM_CLIENT_ID }} --password ${{ secrets.ARM_CLIENT_SECRET }}
+      run: az login --service-principal --tenant ${{ secrets.TENANT_ID }} --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
