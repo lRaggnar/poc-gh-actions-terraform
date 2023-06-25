@@ -40,6 +40,7 @@ jobs:
 
   deploy-infra:
     uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
+    needs: setup-tf-modules
     with:
       working-directory: development
     secrets:
