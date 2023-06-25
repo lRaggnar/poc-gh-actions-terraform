@@ -43,17 +43,17 @@ jobs:
       with:
         path: development/tf.plan
         key: plan-file
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -input=false tf.plan
-      env:
-        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-        ENVIRONMENT: development
-      working-directory: development
-      shell: bash
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   run: terraform apply -input=false tf.plan
+    #   env:
+    #     ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+    #     ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+    #     ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+    #     ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+    #     ENVIRONMENT: development
+    #   working-directory: development
+    #   shell: bash
 
   deploy-infra:
     uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
