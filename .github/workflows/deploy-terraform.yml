@@ -51,6 +51,7 @@ jobs:
         echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
         echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
         echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
+        echo "Test_Environment: ${{ secrets.TEST_ENVIRONMENT }}"
     - name: Log in
       run: az login --service-principal --tenant ${{ secrets.TENANT_ID }} --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }}
     - name: Terraform Apply
