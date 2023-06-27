@@ -42,15 +42,15 @@ jobs:
     #     AZURE_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
     #     AZURE_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
     #     AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-    - name: Check Azure CLI version
-      run: az --version
-    - name: Debug Azure CLI credentials
-      run: |
-        echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
-        echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
-        echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
-    - name: Log in
-      run: az login --service-principal --tenant ${{ secrets.TENANT_ID }} --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }}
+    # - name: Check Azure CLI version
+    #   run: az --version
+    # - name: Debug Azure CLI credentials
+    #   run: |
+    #     echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
+    #     echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
+    #     echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
+    # - name: Log in
+    #   run: az login --service-principal --tenant ${{ secrets.TENANT_ID }} --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
