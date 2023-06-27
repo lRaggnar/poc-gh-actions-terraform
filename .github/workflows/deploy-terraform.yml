@@ -49,8 +49,8 @@ jobs:
     #     echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
     #     echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
     #     echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
-    # - name: Log in
-    #   run: az login --service-principal --tenant ${{ secrets.TENANT_ID }} --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }}
+    - name: Log in
+      run: az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
