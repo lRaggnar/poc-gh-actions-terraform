@@ -59,7 +59,7 @@ jobs:
     #     az account set --subscription=${{ secrets.SUBSCRIPTION_ID }}
     #     az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
       run: |
         tree
         terraform apply -input=false tf.plan
