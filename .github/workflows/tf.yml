@@ -59,6 +59,7 @@ jobs:
   deploy-manual:
     runs-on: ubuntu-latest
     environment: development
+    needs: setup-tf-modules
     steps:
     - name: Checkout
       uses: actions/checkout@v2
