@@ -1,9 +1,9 @@
 name: Deploy Terraform infrastructure
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 jobs:
@@ -44,53 +44,53 @@ jobs:
       with:
         path: development/tf.plan
         key: plan-file
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: terraform apply -input=false tf.plan
-      # env:
-      #   ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      #   ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      #   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      #   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      #   ENVIRONMENT: development
-    #   working-directory: development
-    #   shell: bash
-  
-  deploy-manual:
-    runs-on: ubuntu-latest
-    environment: development
-    needs: setup-tf-modules
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      # with:
-      #   ref: ${{ secrets.TENANT_ID }}
-    - uses: actions/cache@v3
-      with:
-        path: development/tf.plan
-        key: plan-file
-    - name: Setup terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.1.9
-    # - name: Using azure cli
-    #   uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #     client-id: ${{ secrets.CLIENT_ID }}
-    #     tenant-id: ${{ secrets.TENANT_ID }}
-    #     subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-    # - name: Log in
-    #   run: |
-    #     az account set --subscription=${{ secrets.SUBSCRIPTION_ID }}
-    #     az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
     - name: Terraform Apply
-      # if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-      run: |
-        tree
-        terraform apply -input=false tf.plan
+      if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+      run: terraform apply -input=false tf.plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        ENVIRONMENT: development
       working-directory: development
       shell: bash
+  
+  # deploy-manual:
+  #   runs-on: ubuntu-latest
+  #   environment: development
+  #   needs: setup-tf-modules
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+  #     # with:
+  #     #   ref: ${{ secrets.TENANT_ID }}
+  #   - uses: actions/cache@v3
+  #     with:
+  #       path: development/tf.plan
+  #       key: plan-file
+  #   - name: Setup terraform
+  #     uses: hashicorp/setup-terraform@v2
+  #     with:
+  #       terraform_version: 1.1.9
+  #   # - name: Using azure cli
+  #   #   uses: azure/login@v1
+  #   #   with:
+  #   #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #   #     client-id: ${{ secrets.CLIENT_ID }}
+  #   #     tenant-id: ${{ secrets.TENANT_ID }}
+  #   #     subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+  #   # - name: Log in
+  #   #   run: |
+  #   #     az account set --subscription=${{ secrets.SUBSCRIPTION_ID }}
+  #   #     az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+  #   - name: Terraform Apply
+  #     # if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+  #     run: |
+  #       tree
+  #       terraform apply -input=false tf.plan
+  #     working-directory: development
+  #     shell: bash
 
   # deploy-infra:
   #   uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
