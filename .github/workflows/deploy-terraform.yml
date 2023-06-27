@@ -36,6 +36,13 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.1.9
+    - name: Terraform init
+      id: init
+      run: |
+        tree
+        terraform init
+      working-directory: development
+      shell: bash
     # - name: Using azure cli
     # - uses: azure/login@v1
     #   with:
@@ -60,7 +67,7 @@ jobs:
     #     az account set --subscription=${{ secrets.SUBSCRIPTION_ID }}
     #     az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         tree
         terraform apply -input=false tf.plan
