@@ -28,12 +28,13 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ENVIRONMENT: development
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - uses: actions/cache@v3
       with:
-        path: development/tf.plan
+        path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
         key: plan-file
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
@@ -50,6 +51,6 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         tree
-        terraform apply -input=false tf.plan
+        terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
       working-directory: ${{ inputs.working-directory }}
       shell: bash
