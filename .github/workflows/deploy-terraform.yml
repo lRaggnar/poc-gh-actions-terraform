@@ -7,6 +7,10 @@ on:
         required: true
         description: asdfas
         type: string
+      SHORT_SHA:
+        required: true
+        description: asd
+        type: string
     secrets:
       CLIENT_ID:
         required: true
@@ -35,7 +39,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-        key: plan-file-$ENVIRONMENT-$(echo ${GITHUB_SHA::7})
+        key: plan-file-$ENVIRONMENT-${{ inputs.SHORT_SHA }}
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
       with:

@@ -16,6 +16,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       ENVIRONMENT: development
+      SHORT_SHA: ${GITHUB_SHA::7}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -41,7 +42,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-        key: plan-file-$ENVIRONMENT-$(echo ${GITHUB_SHA::7})
+        key: plan-file-$ENVIRONMENT-${{ inputs.SHORT_SHA }}
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
@@ -59,6 +60,7 @@ jobs:
     needs: setup-tf-modules
     with:
       working-directory: development
+      SHORT_SHA: ${GITHUB_SHA::7}
     secrets:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
