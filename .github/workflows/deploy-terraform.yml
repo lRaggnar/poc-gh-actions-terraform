@@ -21,6 +21,7 @@ on:
 jobs:
   deploy_tf:
     runs-on: ubuntu-latest
+    environment: development
     steps:
     - name: Checkout
       uses: actions/checkout@v2
