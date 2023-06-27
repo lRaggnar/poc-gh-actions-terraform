@@ -42,7 +42,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-        key: plan-file-$ENVIRONMENT-${{ inputs.SHORT_SHA }}
+        key: plan-file-$ENVIRONMENT-${SHORT_SHA}
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
