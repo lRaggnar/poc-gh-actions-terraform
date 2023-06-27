@@ -24,6 +24,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: ${{ secrets.TENANT_ID }}
     - uses: actions/cache@v3
       with:
         path: development/tf.plan
@@ -42,8 +44,6 @@ jobs:
     - name: Check Azure CLI version
       run: az --version
     - name: Debug Azure CLI credentials
-      with:
-        ref: ${{ secrets.TENANT_ID }}
       run: |
         echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
         echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
