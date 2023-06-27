@@ -46,29 +46,6 @@ jobs:
         terraform init
       working-directory: development
       shell: bash
-    # - name: Using azure cli
-    # - uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #     client-id: ${{ secrets.CLIENT_ID }}
-    #     tenant-id: ${{ secrets.TENANT_ID }}
-    #     subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-    #   env:
-    #     AZURE_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-    #     AZURE_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-    #     AZURE_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-    #     AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-    # - name: Check Azure CLI version
-    #   run: az --version
-    # - name: Debug Azure CLI credentials
-    #   run: |
-    #     echo "AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}"
-    #     echo "AZURE_CLIENT_ID: ${{ secrets.CLIENT_ID }}"
-    #     echo "AZURE_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}"
-    # - name: Log in
-    #   run: |
-    #     az account set --subscription=${{ secrets.SUBSCRIPTION_ID }}
-    #     az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
