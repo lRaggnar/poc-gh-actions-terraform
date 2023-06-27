@@ -39,9 +39,9 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        # client-id: ${{ secrets.CLIENT_ID }}
-        # tenant-id: ${{ secrets.TENANT_ID }}
-        # subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        client-id: ${{ secrets.CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
     #   env:
     #     AZURE_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
     #     AZURE_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
