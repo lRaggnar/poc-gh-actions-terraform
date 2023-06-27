@@ -25,8 +25,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        ref: ${{ secrets.TENANT_ID }}
+      # with:
+      #   ref: ${{ secrets.TENANT_ID }}
     - uses: actions/cache@v3
       with:
         path: development/tf.plan
