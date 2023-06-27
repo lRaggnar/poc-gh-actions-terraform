@@ -23,11 +23,14 @@ jobs:
   deploy_tf:
     runs-on: ubuntu-latest
     environment: development
+    env:
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      # with:
-      #   ref: ${{ secrets.TENANT_ID }}
     - uses: actions/cache@v3
       with:
         path: development/tf.plan
