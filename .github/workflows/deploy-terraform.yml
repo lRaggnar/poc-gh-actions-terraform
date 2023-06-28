@@ -37,6 +37,13 @@ jobs:
       run: |
         terraform init
       working-directory: $ENVIRONMENT
+    - name: Terraform plan
+      id: plan
+      run: |
+        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
+        tree
+      working-directory: development
+      shell: bash
     - name: Terraform Apply
       shell: bash
       run: |
