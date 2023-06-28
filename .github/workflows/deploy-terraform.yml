@@ -43,7 +43,7 @@ jobs:
     - name: Download a single artifact
       uses: actions/download-artifact@v3
       with:
-        name: plan-${GITHUB_SHA::7}
+        name: plan-${{ env.LAST_COMMIT_SHA }}
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
       with:
