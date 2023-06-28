@@ -36,7 +36,7 @@ jobs:
       shell: bash
       run: |
         terraform init
-      working-directory: $ENVIRONMENT
+      working-directory: development
     - name: Terraform plan
       id: plan
       run: |
@@ -48,4 +48,4 @@ jobs:
       shell: bash
       run: |
         terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-      working-directory: $ENVIRONMENT
+      working-directory: development

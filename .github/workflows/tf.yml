@@ -41,15 +41,15 @@ jobs:
         tree
       working-directory: development
       shell: bash
-    - name: Setup Environment (Push)  
-      shell: bash  
-      run: |  
-        echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: plan-${{ env.LAST_COMMIT_SHA }}
-        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.LAST_COMMIT_SHA }}.plan
+    # - name: Setup Environment (Push)  
+    #   shell: bash  
+    #   run: |  
+    #     echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
+    # - name: Archive production artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: plan-${{ env.LAST_COMMIT_SHA }}
+    #     path: development/tf-${{ env.ENVIRONMENT }}-${{ env.LAST_COMMIT_SHA }}.plan
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
