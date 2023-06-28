@@ -73,6 +73,7 @@ jobs:
   deploy-tf:
     runs-on: ubuntu-latest
     environment: development
+    needs: setup-tf-modules
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
