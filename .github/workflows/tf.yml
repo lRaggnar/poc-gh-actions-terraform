@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: plan-${GITHUB_SHA::7}
-        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.GITHUB_SHA }}.plan
+        path: development/tf-${{ env.ENVIRONMENT }}-${{ GITHUB_SHA }}.plan
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
