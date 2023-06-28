@@ -35,7 +35,7 @@ jobs:
     - name: Terraform plan
       id: plan
       run: |
-        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
+        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA}.plan -input=false -lock=false
         tree
         echo $SHORT_SHA
       working-directory: development
@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: plan-${GITHUB_SHA::7}
-        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.SHORT_SHA }}.plan
+        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.GITHUB_SHA }}.plan
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
