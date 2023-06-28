@@ -7,10 +7,6 @@ on:
         required: true
         description: asdfas
         type: string
-      SHORT_SHA:
-        required: true
-        description: asd
-        type: string
     secrets:
       CLIENT_ID:
         required: true
@@ -40,10 +36,15 @@ jobs:
     #   with:
     #     path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
     #     key: plan-file-$ENVIRONMENT-${{ inputs.SHORT_SHA }}
+    - name: Setup Environment (Push)  
+      if: ${{ github.event_name == 'push' }}  
+      shell: bash  
+      run: |  
+        echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
     - name: Download a single artifact
       uses: actions/download-artifact@v3
       with:
-        name: plan-${{ inputs.SHORT_SHA }}
+        name: plan-${{ env.LAST_COMMIT_SHA }}
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
       with:
