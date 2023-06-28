@@ -37,13 +37,18 @@ jobs:
       run: |
         terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA}.plan -input=false -lock=false
         tree
-        echo $SHORT_SHA
       working-directory: development
       shell: bash
+    - name: Setup Environment (Push)  
+      if: ${{ github.event_name == 'push' }}  
+      shell: bash  
+      run: |  
+        echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
+    - name: testing ENV
+      shell: bash
+      run: echo ${{ env.LAST_COMMIT_SHA }}
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
-      env:
-        TEST_SHA: $( $GITHUB_SHA )
       with:
         name: plan-${GITHUB_SHA::7}
         path: development/tf-${{ env.ENVIRONMENT }}-${{ env.TEST_SHA }}.plan
