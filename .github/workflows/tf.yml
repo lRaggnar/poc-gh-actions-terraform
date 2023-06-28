@@ -16,6 +16,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       ENVIRONMENT: development
+      SHORT_SHA: ${GITHUB_SHA::7}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,13 +37,14 @@ jobs:
       run: |
         terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
         tree
+        echo $SHORT_SHA
       working-directory: development
       shell: bash
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
         name: plan-${GITHUB_SHA::7}
-        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.GITHUB_SHA::7 }}.plan
+        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.SHORT_SHA }}.plan
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
