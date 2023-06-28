@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy-tf:
+    name: Terraform Deploy
     runs-on: ubuntu-latest
     environment: development
     env:

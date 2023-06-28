@@ -9,8 +9,8 @@ on:
 
 jobs:
   setup-tf-modules:
+    name: Terraform Plan
     runs-on: ubuntu-latest
-    name: Terraform init
     environment: development
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
