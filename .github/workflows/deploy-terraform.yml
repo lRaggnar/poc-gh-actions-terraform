@@ -45,7 +45,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: plan-${{ env.LAST_COMMIT_SHA }}
-        path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
+        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.LAST_COMMIT_SHA }}.plan
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
       with:
