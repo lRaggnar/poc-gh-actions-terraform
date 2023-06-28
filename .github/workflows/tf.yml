@@ -3,7 +3,12 @@ name: Deploy Terraform infrastructure
 on:
   push:
     branches:
-      - main
+      - master
+      - develop
+      - /^release\/.*$/
+  release:
+    types: [published]
+    
 
 jobs:
   setup-tf-modules:
@@ -64,15 +69,53 @@ jobs:
     #     ENVIRONMENT: development
     #   working-directory: development
     #   shell: bash
-  
-  deploy-infra:
-    uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
-    needs: setup-tf-modules
-    with:
-      working-directory: development
-    secrets:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      TENANT_ID: ${{ secrets.TENANT_ID }}
+
+  deploy-tf:
+    runs-on: ubuntu-latest
+    environment: development
+    env:
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       ENVIRONMENT: development
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    # - name: Setup Environment (Push)  
+    #   shell: bash  
+    #   run: |  
+    #     echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
+    - name: Download TF plan artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: plan-${{ env.LAST_COMMIT_SHA }}
+        path: development/
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.9
+    - name: Terraform init
+      id: init
+      shell: bash
+      run: |
+        terraform init
+      working-directory: $ENVIRONMENT
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'release' && github.event.action == 'published'
+      shell: bash
+      run: |
+        terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
+      working-directory: $ENVIRONMENT
+  
+  # deploy-infra:
+  #   uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
+  #   needs: setup-tf-modules
+  #   with:
+  #     working-directory: development
+  #   secrets:
+  #     CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  #     CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  #     SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+  #     TENANT_ID: ${{ secrets.TENANT_ID }}
+  #     ENVIRONMENT: development
