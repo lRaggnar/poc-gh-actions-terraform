@@ -1,26 +1,11 @@
 name: Manual deployment for Terraform Infrastructure
 
 on:
-  workflow_call:
-    inputs:
-      working-directory:
-        required: true
-        description: asdfas
-        type: string
-    secrets:
-      CLIENT_ID:
-        required: true
-      CLIENT_SECRET:
-        required: true
-      SUBSCRIPTION_ID:
-        required: true
-      TENANT_ID:
-        required: true
-      ENVIRONMENT:
-        required: true
+  release:
+    types: [published]
 
 jobs:
-  deploy_tf:
+  deploy-tf:
     runs-on: ubuntu-latest
     environment: development
     env:
@@ -32,16 +17,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    # - uses: actions/cache@v3
-    #   with:
-    #     path: development/tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-    #     key: plan-file-$ENVIRONMENT-${{ inputs.SHORT_SHA }}
     - name: Setup Environment (Push)  
-      if: ${{ github.event_name == 'push' }}  
       shell: bash  
       run: |  
         echo "LAST_COMMIT_SHA=${GITHUB_SHA::7}" >> ${GITHUB_ENV}
-    - name: Download a single artifact
+    - name: Download TF plan artifact
       uses: actions/download-artifact@v3
       with:
         name: plan-${{ env.LAST_COMMIT_SHA }}
@@ -52,15 +32,12 @@ jobs:
         terraform_version: 1.1.9
     - name: Terraform init
       id: init
+      shell: bash
       run: |
-        tree
         terraform init
-      working-directory: development
-      shell: bash
+      working-directory: $ENVIRONMENT
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        tree
-        terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-      working-directory: ${{ inputs.working-directory }}
       shell: bash
+      run: |
+        terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
+      working-directory: $ENVIRONMENT
