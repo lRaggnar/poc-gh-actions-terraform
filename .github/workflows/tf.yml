@@ -42,9 +42,11 @@ jobs:
       shell: bash
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
+      env:
+        TEST_SHA: $( $GITHUB_SHA )
       with:
         name: plan-${GITHUB_SHA::7}
-        path: development/tf-${{ env.ENVIRONMENT }}-$( $GITHUB_SHA ).plan
+        path: development/tf-${{ env.ENVIRONMENT }}-${{ env.TEST_SHA }}.plan
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     #   run: terraform apply -input=false tf.plan
