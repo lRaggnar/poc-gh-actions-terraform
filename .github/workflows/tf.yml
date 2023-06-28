@@ -35,13 +35,13 @@ jobs:
     - name: Terraform plan
       id: plan
       run: |
-        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
+        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA}.plan -input=false -lock=false
         tree
       working-directory: development
       shell: bash
     - uses: actions/cache@v3
       with:
-        path: tf-${{ env.ENVIRONMENT }}-${{ echo ${GITHUB_SHA::7} }}.plan
+        path: tf-${{ env.ENVIRONMENT }}-${{ env.GITHUB_SHA }}.plan
         key: plan-file-${{ env.ENVIRONMENT }}
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
