@@ -49,7 +49,7 @@ jobs:
       shell: bash
       run: |
         terraform init
-      working-directory: ${{ inputs.ENVIRONMENT }}
+      working-directory: ${{ vars.ENVIRONMENT }}
 
     - name: Terraform plan
       id: plan
@@ -57,14 +57,14 @@ jobs:
       run: |
         terraform plan -out tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan -input=false -lock=false
         tree
-      working-directory: ${{ inputs.ENVIRONMENT }}
+      working-directory: ${{ vars.ENVIRONMENT }}
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
       shell: bash
       run: |
         terraform apply -input=false tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan
-      working-directory: ${{ inputs.ENVIRONMENT }}
+      working-directory: ${{ vars.ENVIRONMENT }}
 
   deploy_qa:
     runs-on: ubuntu-latest
