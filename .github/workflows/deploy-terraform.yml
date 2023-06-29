@@ -7,38 +7,39 @@ on:
         required: true
         description: asdfas
         type: string
-    # secrets:
-      CLIENT_ID:
-        required: true
-        description: asdfas
-        type: string
-      CLIENT_SECRET:
-        required: true
-        description: asdfas
-        type: string
-      SUBSCRIPTION_ID:
-        required: true
-        description: asdfas
-        type: string
-      TENANT_ID:
-        required: true
-        description: asdfas
-        type: string
       ENVIRONMENT:
         required: true
         description: asdfas
         type: string
+    secrets:
+      CLIENT_ID:
+        required: true
+        description: asdfas
+        # type: string
+      CLIENT_SECRET:
+        required: true
+        description: asdfas
+        # type: string
+      SUBSCRIPTION_ID:
+        required: true
+        description: asdfas
+        # type: string
+      TENANT_ID:
+        required: true
+        description: asdfas
+        # type: string
+        # type: string
 
 jobs:
   deploy_tf:
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
     env:
-      ARM_CLIENT_ID: ${{ inputs.CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ inputs.CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ inputs.SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ inputs.TENANT_ID }}
-      ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
     steps:
 
     - name: Checkout
