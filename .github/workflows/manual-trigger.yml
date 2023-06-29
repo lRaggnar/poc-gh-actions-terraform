@@ -1,7 +1,7 @@
-name: Deploy Terraform infrastructure
+name: Manual test
 
 on:
-  workflow_dispatch:
+  workflow_dispatch
     
 jobs:
   deploy-tf:
