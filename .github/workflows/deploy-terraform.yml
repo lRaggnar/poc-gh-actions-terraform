@@ -40,6 +40,7 @@ jobs:
       ARM_TENANT_ID: ${{ inputs.TENANT_ID }}
       ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
     steps:
+
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -53,7 +54,7 @@ jobs:
       shell: bash
       run: |
         terraform init
-      working-directory: ${{ env.ENVIRONMENT }}
+      working-directory: ${{ inputs.ENVIRONMENT }}
 
     - name: Terraform plan
       id: plan
@@ -61,10 +62,10 @@ jobs:
       run: |
         terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
         tree
-      working-directory: ${{ env.ENVIRONMENT }}
+      working-directory: ${{ inputs.ENVIRONMENT }}
 
     - name: Terraform Apply
       shell: bash
       run: |
         terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
-      working-directory: ${{ env.ENVIRONMENT }}
+      working-directory: ${{ inputs.ENVIRONMENT }}
