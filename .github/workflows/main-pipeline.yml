@@ -11,8 +11,7 @@ on:
 jobs:
   setup-tf-modules:
     runs-on: ubuntu-latest
-    name: Terraform init
-    if: github.event.review.state == 'approved'
+    name: Initial job
     environment: development
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
