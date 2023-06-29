@@ -26,15 +26,14 @@ on:
         description: asdfas
 
 jobs:
-  deploy_tf:
+  deploy_development:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.ENVIRONMENT }}
+    environment: development
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
     steps:
 
     - name: Checkout
@@ -56,7 +55,7 @@ jobs:
       id: plan
       shell: bash
       run: |
-        terraform plan -out tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan -input=false -lock=false
+        terraform plan -out tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan -input=false -lock=false
         tree
       working-directory: ${{ inputs.ENVIRONMENT }}
 
@@ -64,5 +63,85 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
       shell: bash
       run: |
-        terraform apply -input=false tf-$ENVIRONMENT-${GITHUB_SHA::7}.plan
+        terraform apply -input=false tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan
       working-directory: ${{ inputs.ENVIRONMENT }}
+
+  deploy_qa:
+    runs-on: ubuntu-latest
+    environment: qa
+    env:
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.9
+
+    - name: Terraform init
+      id: init
+      shell: bash
+      run: |
+        terraform init
+      working-directory: ${{ vars.ENVIRONMENT }}
+
+    - name: Terraform plan
+      id: plan
+      shell: bash
+      run: |
+        terraform plan -out tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan -input=false -lock=false
+        tree
+      working-directory: ${{ vars.ENVIRONMENT }}
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
+      shell: bash
+      run: |
+        terraform apply -input=false tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan
+      working-directory: ${{ vars.ENVIRONMENT }}
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.9
+
+    - name: Terraform init
+      id: init
+      shell: bash
+      run: |
+        terraform init
+      working-directory: ${{ vars.ENVIRONMENT }}
+
+    - name: Terraform plan
+      id: plan
+      shell: bash
+      run: |
+        terraform plan -out tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan -input=false -lock=false
+        tree
+      working-directory: ${{ vars.ENVIRONMENT }}
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
+      shell: bash
+      run: |
+        terraform apply -input=false tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan
+      working-directory: ${{ vars.ENVIRONMENT }}

@@ -16,7 +16,7 @@ jobs:
     # needs: setup-tf-modules
     with:
       working-directory: development
-      ENVIRONMENT: development
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
     secrets:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
