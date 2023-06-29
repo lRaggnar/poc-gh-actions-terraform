@@ -1,5 +1,5 @@
 #####billing#####
-project_name        = "demoghactions"
+project_name        = "demoprodactions"
 resource_group_name = "helm-sandbox-glo-rg"
 location            = "eastus"
 country             = "CL"
