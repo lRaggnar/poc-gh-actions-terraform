@@ -1,6 +1,8 @@
 name: Manual deployment for Terraform Infrastructure
 
 on:
+  workflow_dispatch:
+ 
   workflow_call:
     inputs:
       working-directory:

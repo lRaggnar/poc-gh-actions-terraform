@@ -9,9 +9,23 @@ on:
     
 
 jobs:
+  terraform-infra:
+    name: Terraform Plan
+    uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
+    # needs: setup-tf-modules
+    with:
+      working-directory: development
+      ENVIRONMENT: development
+    secrets:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      TENANT_ID: ${{ secrets.TENANT_ID }}
+
   setup-tf-modules:
-    runs-on: ubuntu-latest
     name: Initial job
+    needs: terraform-infra
+    runs-on: ubuntu-latest
     environment: development
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
@@ -23,17 +37,3 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-  
-
-  deploy-infra:
-    name: Terraform Plan
-    uses: lRaggnar/poc-gh-actions-terraform/.github/workflows/deploy-terraform.yml@main
-    needs: setup-tf-modules
-    with:
-      working-directory: development
-      ENVIRONMENT: development
-    secrets:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      TENANT_ID: ${{ secrets.TENANT_ID }}
