@@ -61,7 +61,8 @@ jobs:
       working-directory: ${{ vars.ENVIRONMENT }}
 
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
+      # if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
+      if: github.event_name == 'release'
       shell: bash
       run: |
         terraform apply -input=false tf-${{ inputs.ENVIRONMENT }}-${GITHUB_SHA::7}.plan
