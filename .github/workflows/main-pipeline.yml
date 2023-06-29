@@ -1,12 +1,11 @@
 name: Deploy Terraform infrastructure
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  # release:
-  #   types: [published]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
     
     
 
