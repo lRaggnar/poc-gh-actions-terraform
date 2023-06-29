@@ -11,24 +11,19 @@ on:
         required: true
         description: asdfas
         type: string
-    secrets:
-      CLIENT_ID:
-        required: true
-        description: asdfas
-        # type: string
-      CLIENT_SECRET:
-        required: true
-        description: asdfas
-        # type: string
-      SUBSCRIPTION_ID:
-        required: true
-        description: asdfas
-        # type: string
-      TENANT_ID:
-        required: true
-        description: asdfas
-        # type: string
-        # type: string
+    # secrets:
+    #   CLIENT_ID:
+    #     required: true
+    #     description: asdfas
+    #   CLIENT_SECRET:
+    #     required: true
+    #     description: asdfas
+    #   SUBSCRIPTION_ID:
+    #     required: true
+    #     description: asdfas
+    #   TENANT_ID:
+    #     required: true
+    #     description: asdfas
 
 jobs:
   deploy_tf:
