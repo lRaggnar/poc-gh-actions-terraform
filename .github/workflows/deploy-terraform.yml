@@ -48,6 +48,7 @@ jobs:
       id: init
       shell: bash
       run: |
+        echo ${{ vars.ENVIRONMENT }}
         terraform init
       working-directory: ${{ vars.ENVIRONMENT }}
 
@@ -88,6 +89,7 @@ jobs:
       id: init
       shell: bash
       run: |
+        echo ${{ vars.ENVIRONMENT }}
         terraform init
       working-directory: ${{ vars.ENVIRONMENT }}
 
@@ -128,6 +130,7 @@ jobs:
       id: init
       shell: bash
       run: |
+        echo ${{ vars.ENVIRONMENT }}
         terraform init
       working-directory: ${{ vars.ENVIRONMENT }}
 
